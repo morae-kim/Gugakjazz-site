@@ -67,28 +67,24 @@
   /* ================= HERO ================= */
   .hero {
     background: var(--ink); color: var(--cream); min-height: 100vh;
-    display: grid; grid-template-columns: 1.15fr 0.85fr; position: relative;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
   }
-  .hero-text { padding: 100px 40px 100px max(32px, calc((100vw - 1120px) / 2 + 32px)); align-self: center; }
-  .hero-photo { position: relative; min-height: 100vh; overflow: hidden; }
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; position: absolute; inset: 0; }
+  .hero-photo { position: absolute; inset: 0; z-index: 0; }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
   .hero-photo::after {
-    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 100px;
-    background: linear-gradient(90deg, var(--ink), rgba(23,20,15,0)); z-index: 1;
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--ink) 0%, rgba(23,20,15,0.94) 32%, rgba(23,20,15,0.55) 58%, rgba(23,20,15,0.15) 82%);
   }
+  .hero-text { position: relative; z-index: 1; max-width: 620px;
+    padding: 100px 40px 100px max(32px, calc((100vw - 1120px) / 2 + 32px)); }
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-photo { min-height: 46vh; order: -1; }
-    .hero-text { padding: 40px 20px 60px; }
-    /* Mobile: show full person photo without harsh cropping */
-    .hero-photo img {
-      object-fit: contain;
-      object-position: 50% 10%;
-      width: 100%;
-      height: 46vh;
+    .hero { align-items: flex-end; }
+    .hero-photo img { object-position: 50% 18%; }
+    .hero-photo::after {
+      background: linear-gradient(180deg, rgba(23,20,15,0.1) 0%, rgba(23,20,15,0.55) 45%, var(--ink) 82%);
     }
-    /* Remove left gradient overlay on narrow screens so photo edges aren't hidden */
-    .hero-photo::after { display: none; }
+    .hero-text { max-width: none; padding: 40px 20px 60px; }
   }
 
   .hero-meta { font-size: 13px; color: #A8A290; margin-bottom: 28px; }
@@ -124,7 +120,7 @@
   #profile { background: var(--paper); }
   .profile-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; align-items: start; }
   @media (max-width: 860px) { .profile-grid { grid-template-columns: 1fr; gap: 36px; } }
-  .profile-photo { position: sticky; top: 40px; }
+  .profile-photo { position: relative; }
   .profile-photo img { width: 100%; }
   .profile-photo .cap { font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
 
@@ -135,6 +131,7 @@
   .p-row span:last-child { color: var(--ink-soft); }
 
   .country-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 32px; }
+  @media (max-width: 640px) { .country-list { grid-template-columns: 1fr; } }
   .country-item { font-size: 13.5px; padding: 8px 0; border-bottom: 1px solid var(--line); }
   .country-item b { font-family: 'Noto Serif KR', serif; color: var(--danchung); }
 
@@ -209,7 +206,11 @@
     background: var(--cream); padding: 14px 22px;
   }
   .flow .arrow { color: var(--brass); font-size: 18px; }
-  @media (max-width: 640px) { .flow { flex-direction: column; align-items: flex-start; } .flow .arrow { transform: rotate(90deg); } }
+  @media (max-width: 640px) {
+    .flow { flex-wrap: nowrap; overflow-x: auto; gap: 6px; -webkit-overflow-scrolling: touch; }
+    .flow .node { font-size: 12.5px; padding: 10px 12px; white-space: nowrap; flex-shrink: 0; }
+    .flow .arrow { font-size: 14px; flex-shrink: 0; }
+  }
 
   .lounge-closing { background: var(--ink); color: var(--cream); padding: 30px 36px; }
   .lounge-closing p { font-size: 17px; line-height: 1.85; margin: 0; }
@@ -328,10 +329,10 @@
           <div class="p-sec-title"><span class="stat-inline">7개국</span> 해외 초청 연주</div>
           <div class="country-list">
             <div class="country-item"><b>키르기즈스탄</b> — 2024 국제재즈페스티벌</div>
-            <div class="country-item"><b>케냐</b> — 2019 UN 세계청년의날</div>
             <div class="country-item"><b>우즈베키스탄</b> — 2021 한국의 주간</div>
-            <div class="country-item"><b>미얀마</b> — 2019 사람예술학교</div>
             <div class="country-item"><b>스페인</b> — 2021 청년해외교류사업</div>
+            <div class="country-item"><b>케냐</b> — 2019 UN 세계청년의날</div>
+            <div class="country-item"><b>미얀마</b> — 2019 사람예술학교</div>
             <div class="country-item"><b>프랑스</b> — 2019 청년예술교류사업</div>
             <div class="country-item"><b>태국</b> — 2018 방콕 재즈클럽</div>
           </div>
